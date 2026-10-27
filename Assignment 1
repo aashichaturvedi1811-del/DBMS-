@@ -1,0 +1,198 @@
+1)
+CREATE TABLE countries (
+    country_id INT,
+    country_name VARCHAR(50),
+    region_id INT
+);
+
+2)
+CREATE TABLE IF NOT EXISTS countries (
+    country_id INT,
+    country_name VARCHAR(50),
+    region_id INT
+);
+
+3)
+CREATE TABLE dup_countries 
+LIKE countries;
+
+4)
+CREATE TABLE dup_countries AS
+SELECT * FROM countries;
+
+5)
+CREATE TABLE countries (
+    country_id INT NULL,
+    country_name VARCHAR(50) NULL,
+    region_id INT NULL
+);
+
+6) 
+CREATE TABLE jobs (
+    job_id INT,
+    job_title VARCHAR(50),
+    min_salary DECIMAL(10,2),
+    max_salary DECIMAL(10,2),
+    CHECK (max_salary <= 25000)
+);
+
+7)
+CREATE TABLE countries (
+    country_id INT,
+    country_name VARCHAR(50),
+    region_id INT,
+    CHECK (country_name IN ('Italy', 'India', 'China'))
+);
+
+8)
+CREATE TABLE job_histry (
+    employee_id INT,
+    start_date DATE,
+    end_date DATE,
+    job_id VARCHAR(10),
+    department_id INT
+);
+
+9)
+INSERT INTO job_histry
+VALUES (101, '2026-01-01',
+        STR_TO_DATE('25/10/2026', '%d/%m/%Y'),
+        'IT01', 10);
+
+10)
+CREATE TABLE jobs (
+    job_id INT,
+    job_title VARCHAR(50) DEFAULT '',
+    min_salary DECIMAL(10,2) DEFAULT 8000,
+    max_salary DECIMAL(10,2) DEFAULT NULL
+);
+
+11)
+CREATE TABLE countries (
+    country_id INT PRIMARY KEY,
+    country_name VARCHAR(50),
+    region_id INT
+);
+
+12)
+CREATE TABLE countries (
+    country_id INT AUTO_INCREMENT PRIMARY KEY,
+    country_name VARCHAR(50),
+    region_id INT
+);
+
+13)
+CREATE TABLE countries (
+    country_id INT,
+    country_name VARCHAR(50),
+    region_id INT,
+    UNIQUE (country_id, region_id)
+);
+
+14)
+CREATE TABLE job_history (
+    employee_id INT UNIQUE,
+    start_date DATE,
+    end_date DATE,
+    job_id VARCHAR(10),
+    department_id INT,
+    FOREIGN KEY (job_id)
+        REFERENCES jobs(job_id)
+);
+
+15)
+CREATE TABLE employees (
+    employee_id INT UNIQUE,
+    first_name VARCHAR(20),
+    last_name VARCHAR(25),
+    email VARCHAR(100),
+    phone_number VARCHAR(20),
+    hire_date DATE,
+    job_id VARCHAR(10),
+    salary DECIMAL(8,2),
+    commission DECIMAL(4,2),
+    manager_id DECIMAL(6,0),
+    department_id DECIMAL(4,0),
+
+    FOREIGN KEY (department_id, manager_id)
+        REFERENCES departments
+            (DEPARTMENT_ID, MANAGER_ID)
+);
+
+16)
+CREATE TABLE employees (
+    employee_id INT UNIQUE,
+    first_name VARCHAR(20),
+    last_name VARCHAR(25),
+    email VARCHAR(100),
+    phone_number VARCHAR(20),
+    hire_date DATE,
+    job_id VARCHAR(10),
+    salary DECIMAL(8,2),
+    commission DECIMAL(4,2),
+    manager_id INT,
+    department_id DECIMAL(4,0),
+
+    FOREIGN KEY (department_id)
+        REFERENCES departments(DEPARTMENT_ID),
+
+    FOREIGN KEY (job_id)
+        REFERENCES jobs(JOB_ID)
+) ENGINE=InnoDB;
+
+17)
+CREATE TABLE employees (
+    employee_id INT UNIQUE,
+    first_name VARCHAR(20),
+    last_name VARCHAR(25),
+    job_id INT,
+    salary DECIMAL(8,2),
+
+    FOREIGN KEY (job_id)
+        REFERENCES jobs(JOB_ID)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+) ENGINE=InnoDB;
+
+18)
+CREATE TABLE employees (
+    employee_id INT UNIQUE,
+    first_name VARCHAR(20),
+    last_name VARCHAR(25),
+    job_id INT,
+    salary DECIMAL(8,2),
+
+    FOREIGN KEY (job_id)
+        REFERENCES jobs(JOB_ID)
+        ON DELETE CASCADE
+        ON UPDATE RESTRICT
+) ENGINE=InnoDB;
+
+19)
+CREATE TABLE employees (
+    employee_id INT UNIQUE,
+    first_name VARCHAR(20),
+    last_name VARCHAR(25),
+    job_id INT NULL,
+    salary DECIMAL(8,2),
+
+    FOREIGN KEY (job_id)
+        REFERENCES jobs(JOB_ID)
+        ON DELETE SET NULL
+        ON UPDATE SET NULL
+) ENGINE=InnoDB;
+
+20)
+CREATE TABLE employees (
+    employee_id INT UNIQUE,
+    first_name VARCHAR(20),
+    last_name VARCHAR(25),
+    job_id INT,
+    salary DECIMAL(8,2),
+
+    FOREIGN KEY (job_id)
+        REFERENCES jobs(JOB_ID)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION
+) ENGINE=InnoDB;
+
